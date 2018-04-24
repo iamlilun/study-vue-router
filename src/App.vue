@@ -19,8 +19,11 @@ import About from './About.vue'
 export default {
     router: new VueRouter({ //2. new
         routes:[
+            //{path: '/:page', component: About}, "/" 後面就用動態參數會衝突，
+            //更多規則 https://github.com/pillarjs/path-to-regexp
             {path: '/about', component: About},
-            {path: '/products', component: Products},
+            {path: '/products/:id', component: Products}, //加上 :xxx 就變成動態參數
+            //{path: '/products/:id?', component: Products}, //加上 ？ 就表示可有可無的參數
         ],
     }),
 }
