@@ -5,14 +5,10 @@
  |
  */
 
-//把vue跟vue-router給import進來
 import Vue from 'vue';
 import VueRouter from 'vue-router'
 
-//把App也當成component引入(話說他本來就是component-.-")
 import App from './App.vue';
-
-//把之前import在App下的也import到這
 import Products from './Products.vue'
 import About from './About.vue'
 import AboutUs from './AboutUs.vue'
@@ -24,29 +20,44 @@ Vue.use(VueRouter);
 export default new VueRouter({
     routes:[
         {
-            path: '/', //把根目錄導到App
+            path: '/',
             component: App,
-            children: [ //其它的變成App的children
+            children: [
                 {
                     path: 'about',
+                    alias: 'story', //替about取個別名，連story也會顯示about內容,不會被轉址
                     component: About,
                     children: [
                         {path: '', component:AboutHome},
-                        {path: 'us', component:AboutUs},
+                        {path: 'us', name:'home', component:AboutUs},
                         {path: 'you', component:AboutYou},
-
-                        //要顯示一個以上的component可以用components:{name: component, xxx:xxx...}
-                        {path: 'both', components:{
-                            default: AboutUs,
-                            another: AboutYou,
+                        {
+                            path: 'both',
+                            alias: ['/2', '2', '3'], //別名也可以用陣列匹配
+                            components:{
+                                default: AboutUs,
+                                another: AboutYou,
                         }},
                     ],
                 },
                 {
                     path: 'products/:id?',
-                    name: 'prod', //path加上name就可以為router命名
+                    name: 'prod',
                     component: Products,
-                }, //加上 :xxx 就變成動態參數
+                },
+                {
+                    path: '*', //星表示所有路徑..所以要放最下面,才不會跟上面的規則衝突
+
+                    //轉址有3種方式可用：
+                    //redirect: '/about/us' 1.基本轉址
+                    //redirect: {name : 'home'} 2.轉址也能用具名方式..會導到名字為home的路由
+                    redirect: (from) => { //3. 也可以是function模式..
+                        console.log('from', from);
+                        if(from.path == '/xxx') {
+                            return {name: 'home'};
+                        }
+                    },
+                }
             ],
         },
     ],
