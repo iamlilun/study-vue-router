@@ -30,14 +30,21 @@ export default new VueRouter({
                 {
                     path: 'about',
                     component: About,
-                    children: [ //使用children可以設定/about的下一層路徑匹配
-                        {path: '', component:AboutHome}, //空白表示都沒匹配到時顯示
+                    children: [
+                        {path: '', component:AboutHome},
                         {path: 'us', component:AboutUs},
                         {path: 'you', component:AboutYou},
+
+                        //要顯示一個以上的component可以用components:{name: component, xxx:xxx...}
+                        {path: 'both', components:{
+                            default: AboutUs,
+                            another: AboutYou,
+                        }},
                     ],
                 },
                 {
-                    path: 'products/:id',
+                    path: 'products/:id?',
+                    name: 'prod', //path加上name就可以為router命名
                     component: Products,
                 }, //加上 :xxx 就變成動態參數
             ],
