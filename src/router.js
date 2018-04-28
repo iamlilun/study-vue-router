@@ -9,11 +9,11 @@ import Vue from 'vue';
 import VueRouter from 'vue-router'
 
 import App from './App.vue';
-import Products from './Products.vue'
 import About from './About.vue'
-import AboutUs from './AboutUs.vue'
-import AboutYou from './AboutYou.vue'
-import AboutHome from './AboutHome.vue'
+import Courses from './Courses.vue'
+import Booking from './Booking.vue'
+import CourseList from './CourseList.vue'
+import CourseDetail from './CourseDetail.vue'
 
 Vue.use(VueRouter);
 
@@ -25,30 +25,15 @@ export default new VueRouter({
             path: '/',
             component: App,
             children: [
+                {path: 'about', component:About},
+                {path: 'booking', component:Booking},
                 {
-                    path: 'about',
-                    component: About,
+                    path: 'courses',
+                    component:Courses,
                     children: [
-                        {path: '', component:AboutHome},
-                        {path: 'us', name:'home', component:AboutUs},
-                        {path: 'you', component:AboutYou},
-                        {
-                            path: 'both',
-                            components:{
-                                default: AboutUs,
-                                another: AboutYou,
-                        }},
-                    ],
-                },
-                {
-                    path: 'products/:id',
-                    name: 'home',
-                    component: Products,
-                    props: (route)=>{
-                        return {
-                            id: route.params.id,
-                        }
-                    }
+                        {path: '', component: CourseList},
+                        {path: ':id', component: CourseDetail},
+                    ]
                 },
             ],
         },

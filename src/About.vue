@@ -1,12 +1,9 @@
 <template>
     <div>
         <h1>About</h1>
-        <router-link to="/about/us">Us</router-link>
-        <router-link to="/about/you">You</router-link>
-        <router-link to="/about/both">Both</router-link>
-        <router-link :to="{name: 'prod', params:{id:18}}">shoes</router-link>
-        <router-view/>
-        <router-view name="another"/> <!--顯示命名的component-->
+        <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque eu finibus felis. Morbi pellentesque dolor magna, fermentum sodales turpis porttitor ac. Nullam lacus metus, viverra vitae ultrices quis, euismod eu sem. Nulla et ligula eu tortor eleifend sodales et quis diam. Aliquam non ante tincidunt sapien sodales commodo. Aliquam pulvinar quis sem ut egestas. Fusce ultricies urna sapien, mollis elementum augue pharetra eu. Cras et placerat sapien. Sed ultricies in odio nec pulvinar. Cras ultricies pretium massa, in congue ligula finibus non. Nulla sed gravida justo.
+         </p>
     </div>
 </template>
 
