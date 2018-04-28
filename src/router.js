@@ -25,7 +25,6 @@ export default new VueRouter({
             children: [
                 {
                     path: 'about',
-                    alias: 'story', //替about取個別名，連story也會顯示about內容,不會被轉址
                     component: About,
                     children: [
                         {path: '', component:AboutHome},
@@ -33,7 +32,6 @@ export default new VueRouter({
                         {path: 'you', component:AboutYou},
                         {
                             path: 'both',
-                            alias: ['/2', '2', '3'], //別名也可以用陣列匹配
                             components:{
                                 default: AboutUs,
                                 another: AboutYou,
@@ -41,23 +39,28 @@ export default new VueRouter({
                     ],
                 },
                 {
-                    path: 'products/:id?',
-                    name: 'prod',
+                    path: 'products/:id',
+                    name: 'home',
                     component: Products,
-                },
-                {
-                    path: '*', //星表示所有路徑..所以要放最下面,才不會跟上面的規則衝突
 
-                    //轉址有3種方式可用：
-                    //redirect: '/about/us' 1.基本轉址
-                    //redirect: {name : 'home'} 2.轉址也能用具名方式..會導到名字為home的路由
-                    redirect: (from) => { //3. 也可以是function模式..
-                        console.log('from', from);
-                        if(from.path == '/xxx') {
-                            return {name: 'home'};
+                    //#### props 有三種方式使用
+                    //1. 加個props屬性並設為true..component就不用被綁死用this.$route.params了.
+                    // :id裡的param都會被當成props傳到Products.vue裡
+                    //props: true,
+
+                    //2. 用物件直接指定kev： value..當然path也不用:id了..
+                    //props: {id: 3},
+
+                    //3. 用函式方式...更靈活
+                    props: (route)=>{
+                        // return { //可直接return key : value
+                        //     id: 30,
+                        // }
+                        return { //如果有指定參數的話..參數等同於this.$router，記得加回path最後的:id
+                            id: route.params.id,
                         }
-                    },
-                }
+                    }
+                },
             ],
         },
     ],
